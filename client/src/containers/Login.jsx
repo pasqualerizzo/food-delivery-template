@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import {LoginBg, Logo} from "../assets";
+import { LoginBg, Logo } from "../assets";
 import { LoginInput } from '../components';
-import {FaEnvelope, FaLock} from "../assets/icons";
-import {motion} from "framer-motion"
+import { FaEnvelope, FaLock, FcGoogle } from "../assets/icons";
+import { motion } from "framer-motion"
 import { buttonClick } from '../animations';
+
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { app } from "../config/firebase.config"
 
 const Login = () => {
 
@@ -11,6 +14,21 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirm_password] = useState("");
+
+  const firebaseAuth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  const loginWithGoogle = async () => {
+    await signInWithPopup(firebaseAuth, provider).then(userCred => {
+      firebaseAuth.onAuthStateChanged((cred) => {
+        if (cred) {
+          cred.getIdToken().then((token) => (
+            console.log(token)
+          ));
+        }
+      });
+    });
+  };
 
   return (
   <div className='w-screen h-screen relative overflow-hidden flex'>
@@ -114,10 +132,25 @@ const Login = () => {
             )}
             
           </div>
+          <div className='flex items-center justify-between gap-16'>
+            <div className='w-24 h-[1px] rounded-md bg-white'></div>
+            <p className='text-black'>Accedi Con Google</p>
+            <div className='w-24 h-[1px] rounded-md bg-white'></div>
+          </div>
 
+          <motion.div 
+          {...buttonClick} 
+          className='flex items-center justify-center px-20 py-2 bg-lightOverlay backdrop-blur-md cursor-pointer rounded-3xl gap-4'
+          onClick={loginWithGoogle}
+          >
+            <FcGoogle className='text-3xl' />
+            <p className='capitalize text-base text-headingColor'>
+              Accedi Con Google
+            </p>
+          </motion.div>
       </div>
   </div>
-  )
-}
+  );
+};
 
 export default Login
