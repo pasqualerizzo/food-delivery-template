@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from "react-router-dom";
 import { validateUserJWTToken } from './api';
 import { app } from './config/firebase.config';
-import { Main, Login } from "./containers";
+import { Main, Login, Dashboard } from "./containers";
 import { setUserDetails } from './context/actions/userActions';
 import { motion } from 'framer-motion';
 import { fadeInOut } from './animations';
@@ -47,6 +47,8 @@ const App = () => {
       <Routes>
           <Route path='/*' element={<Main />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/dashboard/*' element={<Dashboard />} />
+
       </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}
