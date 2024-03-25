@@ -13,6 +13,8 @@ export { default as DBNewItem } from "./DBNewItem";
 export { default as DBItems } from "./DBItems";
 export { default as DBUsers } from "./DBUsers";
 export { default as DataTable } from "./DataTable";
+export { default as Spinner } from "./Spinner";
+
 
 
 
